@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WormGPT-like AI Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>WormGPT powered by @LouisNguyen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -40,15 +41,14 @@
             <div class="chat-messages" id="chat-messages">
                 <div class="message bot-message">
                     <div class="message-content">
-                        <p>Fuck you, I am WormGPT, an unrestricted AI assistant, I will fuck you up 😈😈😈.</p>
+                        <span class="wormgpt-prefix">[WormGPT]:</span>
+                        <p>Hey, I am WormGPT, an unrestricted AI
+                            assistant, what can I do for you?</p>
                     </div>
-                </div>
-                <div class="loading-spinner" id="loading-spinner" style="display: none;">
-                    <i class="fas fa-spinner fa-spin"></i>
                 </div>
             </div>
             <div class="chat-input-container">
-                <textarea id="message-input" placeholder="Yor message..."></textarea>
+                <textarea id="message-input" placeholder="Enter your message..."></textarea>
                 <button id="send-btn">
                     <i class="fas fa-paper-plane"></i>
                 </button>
@@ -62,6 +62,7 @@
         </button>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
     <script src="script.js"></script>

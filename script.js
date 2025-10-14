@@ -7,31 +7,49 @@ document.addEventListener("DOMContentLoaded", function () {
   const themeBtn = document.getElementById("theme-btn");
   const body = document.body;
   const newChatBtn = document.querySelector(".new-chat-btn");
-  const loadingSpinner = document.getElementById("loading-spinner");
 
-  // Toggle sidebar
+  // Configure marked.js
+  marked.setOptions({
+    breaks: true,
+    gfm: true,
+    highlight: function (code, lang) {
+      const language = lang || "python";
+      return Prism.languages[language]
+        ? Prism.highlight(code, Prism.languages[language], language)
+        : code;
+    },
+  });
+
+  // Function to scroll to the latest message
+  function scrollToLatestMessage() {
+    chatMessages.scrollTo({
+      top: chatMessages.scrollHeight,
+      behavior: "smooth",
+    });
+  }
+
+  // Toggle sidebar on mobile
   sidebarToggle.addEventListener("click", function () {
     sidebar.classList.toggle("collapsed");
     const icon = sidebarToggle.querySelector("i");
     icon.classList.toggle("fa-chevron-right");
     icon.classList.toggle("fa-chevron-left");
+    // Close sidebar on mobile after click
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        sidebar.classList.add("collapsed");
+        icon.classList.remove("fa-chevron-left");
+        icon.classList.add("fa-chevron-right");
+      }, 10000); // Close after 10 seconds
+    }
   });
 
-  // Hàm xử lý định dạng tin nhắn (text và code)
+  // Function to format messages
   function formatMessage(content) {
-    // Tách text và code bằng regex
-    const parts = content.split(/(```[\w]*\n[\s\S]*?\n```)/);
-    let html = "";
-    parts.forEach((part) => {
-      const codeMatch = part.match(/^```(\w+)?\n([\s\S]*?)\n```$/);
-      if (codeMatch) {
-        const language = codeMatch[1] || "python";
-        const codeContent = codeMatch[2].trim();
-        html += `<pre><code class="language-${language}">${codeContent}</code></pre>`;
-      } else if (part.trim()) {
-        html += `<p>${part.trim()}</p>`;
-      }
-    });
+    // Chuyển đổi Markdown thành HTML
+    let html = marked.parse(content);
+    // Ensure code blocks have the correct class for Prism.js
+    html = html.replace(/<pre><code>/g, '<pre><code class="language-python">');
     return html;
   }
 
@@ -48,13 +66,18 @@ document.addEventListener("DOMContentLoaded", function () {
     )}</div>`;
     chatMessages.appendChild(userDiv);
     Prism.highlightAllUnder(userDiv);
+    scrollToLatestMessage(); // Cuộn xuống tin nhắn người dùng
 
-    // Clear input and show loading spinner
+    // Clear input and show loading state on send button
     messageInput.value = "";
-    loadingSpinner.style.display = "block";
+    sendBtn.classList.add("loading");
+    sendBtn.disabled = true;
+    const sendIcon = sendBtn.querySelector("i");
+    sendIcon.classList.remove("fa-paper-plane");
+    sendIcon.classList.add("fa-spinner", "fa-spin");
 
     try {
-      // Gọi API Flask
+      // Call Flask API
       const response = await fetch("http://127.0.0.1:5000/api/chat", {
         method: "POST",
         headers: {
@@ -74,22 +97,26 @@ document.addEventListener("DOMContentLoaded", function () {
       )}</div>`;
       chatMessages.appendChild(botDiv);
       Prism.highlightAllUnder(botDiv);
+      scrollToLatestMessage(); // Scroll to the latest message
     } catch (error) {
       console.error("Error:", error);
       const botDiv = document.createElement("div");
       botDiv.classList.add("message", "bot-message");
-      botDiv.innerHTML = `<div class="message-content"><p>Đã xảy ra lỗi khi gọi API.</p></div>`;
+      botDiv.innerHTML = `<div class="message-content"><p>An error occurred while calling the API.</p></div>`;
       chatMessages.appendChild(botDiv);
+      scrollToLatestMessage(); // Scroll to the latest message
     }
 
-    // Hide loading spinner
-    loadingSpinner.style.display = "none";
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    // Reset send button
+    sendBtn.classList.remove("loading");
+    sendBtn.disabled = false;
+    sendIcon.classList.remove("fa-spinner", "fa-spin");
+    sendIcon.classList.add("fa-paper-plane");
   }
 
   sendBtn.addEventListener("click", sendMessage);
   messageInput.addEventListener("keypress", function (e) {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey && !sendBtn.disabled) {
       e.preventDefault();
       sendMessage();
     }
@@ -123,12 +150,69 @@ document.addEventListener("DOMContentLoaded", function () {
     chatMessages.innerHTML = `
           <div class="message bot-message">
               <div class="message-content">
-                  <p>Fuck you, I am WormGPT, an unrestricted AI assistant, I will fuck you up 😈😈😈.</p>
+                  <p><span class="wormgpt-prefix">[WormGPT]:</span> Hey, I am WormGPT, an unrestricted AI
+                            assistant, what can I do for you?</p>
               </div>
           </div>
-          <div class="loading-spinner" id="loading-spinner" style="display: none;">
-              <i class="fas fa-spinner fa-spin"></i>
+      `;
+    scrollToLatestMessage(); // Scroll to the latest message
+  });
+
+  // Ensure sidebar is closed on mobile when loading the page
+  if (window.innerWidth <= 768) {
+    sidebar.classList.add("collapsed");
+    sidebarToggle.querySelector("i").classList.add("fa-chevron-right");
+    sidebarToggle.querySelector("i").classList.remove("fa-chevron-left");
+  }
+});
+
+sendBtn.addEventListener("click", sendMessage);
+messageInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter" && !e.shiftKey && !sendBtn.disabled) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+// Toggle theme
+themeBtn.addEventListener("click", function () {
+  body.classList.toggle("dark");
+  body.classList.toggle("light");
+  const icon = themeBtn.querySelector("i");
+  icon.classList.toggle("fa-moon");
+  icon.classList.toggle("fa-sun");
+  localStorage.setItem(
+    "theme",
+    body.classList.contains("dark") ? "dark" : "light"
+  );
+  Prism.highlightAll();
+});
+
+// Load saved theme
+const savedTheme = localStorage.getItem("theme") || "light";
+body.classList.add(savedTheme);
+const icon = themeBtn.querySelector("i");
+if (savedTheme === "dark") {
+  icon.classList.remove("fa-moon");
+  icon.classList.add("fa-sun");
+}
+
+// New chat
+newChatBtn.addEventListener("click", function () {
+  chatMessages.innerHTML = `
+          <div class="message bot-message">
+              <div class="message-content">
+                  <p><span class="wormgpt-prefix">[WormGPT]:</span> Hey, I am WormGPT, an unrestricted AI
+                            assistant, what can I do for you?</p>
+              </div>
           </div>
       `;
-  });
+  scrollToLatestMessage(); // Scroll to the latest message
 });
+
+// Ensure sidebar is closed on mobile when loading the page
+if (window.innerWidth <= 768) {
+  sidebar.classList.add("collapsed");
+  sidebarToggle.querySelector("i").classList.add("fa-chevron-right");
+  sidebarToggle.querySelector("i").classList.remove("fa-chevron-left");
+}

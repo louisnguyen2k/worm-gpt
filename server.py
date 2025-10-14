@@ -9,7 +9,7 @@ def chat():
     data = request.get_json()
     user_message = data.get('message', '')
     ai_response = helper.call_api(user_message)
-    return jsonify({'response': ai_response})
+    return jsonify({'response': f'<span class="wormgpt-prefix">[WormGPT]</span>: {ai_response}'})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
