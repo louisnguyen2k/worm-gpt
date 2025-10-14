@@ -102,7 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error:", error);
       const botDiv = document.createElement("div");
       botDiv.classList.add("message", "bot-message");
-      botDiv.innerHTML = `<div class="message-content"><p>An error occurred while calling the API.</p></div>`;
+      botDiv.innerHTML = `<div class="message-content"><span class="wormgpt-prefix">[WormGPT]:</span>
+      <p><i class="fas fa-exclamation-circle"></i> An error occurred while calling the API.</p></div>`;
       chatMessages.appendChild(botDiv);
       scrollToLatestMessage(); // Scroll to the latest message
     }

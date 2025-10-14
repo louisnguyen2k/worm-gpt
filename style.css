@@ -564,3 +564,6 @@ body.dark .conversation-list::-webkit-scrollbar-thumb {
     font-size: 0.85em;
   }
 }
+.fas.fa-exclamation-circle {
+  color: rgb(119, 18, 18);
+}
