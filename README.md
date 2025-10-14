@@ -2,6 +2,30 @@
 
 A modern web-based chat application that provides an AI-powered conversational interface using OpenRouter API. The application features a sleek, responsive design with dark/light theme support and real-time messaging capabilities.
 
+## ⚠️ IMPORTANT DISCLAIMER
+
+**This repository is for educational and learning purposes only.**
+
+- This project is created solely for educational purposes and to understand web development and AI integration
+- The authors and contributors do not take any responsibility for how this code is used
+- Users are fully responsible for their own actions and any consequences that may arise from using this code
+- This software is provided "as is" without any warranties or guarantees
+- Please use responsibly and in accordance with all applicable laws and regulations
+- The authors disclaim all liability for any damages, losses, or issues that may result from the use of this code
+
+## 🚨 CRITICAL WARNING - AI RESPONSES
+
+**The AI may provide responses to sensitive, harmful, or inappropriate questions.**
+
+- This AI system may respond to questions about sensitive topics, potentially harmful activities, or inappropriate content
+- Users may use AI responses to engage in activities that could cause harm, damage, or legal issues
+- The AI does not have built-in safety filters or content moderation
+- Users are fully responsible for how they interpret and act upon AI responses
+- The authors strongly discourage and disclaim responsibility for any misuse of AI responses
+- Any consequences resulting from following AI advice or information are entirely the user's responsibility
+
+**By using this code, you acknowledge and agree to these terms and understand the potential risks.**
+
 ## 🚀 Features
 
 - **Modern Web Interface**: Clean, responsive design inspired by popular chat applications
@@ -190,9 +214,29 @@ The Flask server runs in debug mode by default, which provides:
 
 Enable debug mode by setting `debug=True` in `server.py` for detailed error messages.
 
-## 📝 License
+## 📝 License & Disclaimer
 
-This project is for educational and demonstration purposes. Please ensure you comply with OpenRouter's terms of service when using their API.
+**Educational Use Only**
+
+This project is created exclusively for educational and learning purposes. It is intended to help developers understand:
+
+- Web application development with Flask
+- AI API integration
+- Frontend-backend communication
+- Modern web UI/UX design
+
+**No Warranty or Liability**
+
+- This software is provided "as is" without any warranties
+- The authors and contributors disclaim all liability for any damages or consequences
+- Users assume full responsibility for their use of this code
+- **AI responses may contain harmful, inappropriate, or dangerous information**
+- **Users are fully responsible for any actions taken based on AI responses**
+- **The AI system lacks safety filters and may respond to sensitive queries**
+- Please ensure compliance with OpenRouter's terms of service when using their API
+- Use responsibly and in accordance with all applicable laws and regulations
+
+**By using this code, you agree to these terms and acknowledge that you are using it at your own risk, including the risk of receiving potentially harmful AI responses.**
 
 ## 🤝 Contributing
 
