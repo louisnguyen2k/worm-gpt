@@ -32,7 +32,7 @@ A modern web-based chat application that provides an AI-powered conversational i
 
 ```bash
 git clone <your-repository-url>
-cd chatai
+cd worm-gpt
 ```
 
 ### 2. Set Up Virtual Environment
@@ -90,7 +90,7 @@ Navigate to `http://localhost:5000` in your web browser to start chatting!
 ## 📁 Project Structure
 
 ```
-chatai/
+worm-gpt/
 ├── server.py              # Flask backend server
 ├── helper.py              # API integration and utilities
 ├── config.json            # API configuration
