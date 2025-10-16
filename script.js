@@ -46,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to format messages
   function formatMessage(content) {
-    // Chuyển đổi Markdown thành HTML
     let html = marked.parse(content);
     // Ensure code blocks have the correct class for Prism.js
     html = html.replace(/<pre><code>/g, '<pre><code class="language-python">');
@@ -66,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     )}</div>`;
     chatMessages.appendChild(userDiv);
     Prism.highlightAllUnder(userDiv);
-    scrollToLatestMessage(); // Cuộn xuống tin nhắn người dùng
+    scrollToLatestMessage();
 
     // Clear input and show loading state on send button
     messageInput.value = "";
@@ -98,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
       )}</div>`;
       chatMessages.appendChild(botDiv);
       Prism.highlightAllUnder(botDiv);
-      scrollToLatestMessage(); // Scroll to the latest message
+      scrollToLatestMessage();
     } catch (error) {
       console.error("Error:", error);
       const botDiv = document.createElement("div");
@@ -106,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
       botDiv.innerHTML = `<div class="message-content"><span class="wormgpt-prefix">[WormGPT]:</span>
       <p><i class="fas fa-exclamation-circle"></i> An error occurred while calling the API.</p></div>`;
       chatMessages.appendChild(botDiv);
-      scrollToLatestMessage(); // Scroll to the latest message
+      scrollToLatestMessage();
     }
 
     // Reset send button
