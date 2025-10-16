@@ -1,3 +1,5 @@
+# Python dependencies for WormGPT
+# Install with: pip3 install -r requirements.txt
 Flask==3.0.3
 flask-cors==5.0.0
 requests
